@@ -1,16 +1,16 @@
 {
   "name": "standort",
   "description": "Ein Standort dienst mit Node (Express, Socket.io), React und MongoDB",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/gottsohn/standort",
   "engines": {
-    "node": "4.2.4",
-    "npm": "2.14.x"
+    "node": "5.1.0",
+    "npm": "3.5.1"
   },
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "webpack --config webpack-production.config.js -p --progress --colors"
   },
   "dependencies": {
     "babel-eslint": "^6.0.4",
@@ -21,6 +21,7 @@
     "mongoose": "^4.4.19",
     "passport": "^0.3.2",
     "react": "^15.1.0",
+    "strip-loader": "^0.1.2",
     "supertest": "^1.2.0",
     "webpack": "^1.13.1"
   },
