@@ -21,7 +21,9 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "babel-eslint": "^6.0.4",
     "dotenv": "^2.0.0",
+    "eslint": "^2.11.1",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.0.0",
     "mongoose": "^4.4.19",
@@ -29,5 +31,8 @@
     "react": "^15.1.0",
     "supertest": "^1.2.0",
     "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^5.1.1"
   }
 }
