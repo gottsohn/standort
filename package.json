@@ -8,7 +8,15 @@
     "node": "4.2.4",
     "npm": "2.14.x"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gottsohn/standort.git"
+  },
+  "author": "Godson Ukpere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gottsohn/standort/issues"
+  },
   "scripts": {
     "start": "node index.js"
   },
