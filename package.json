@@ -1,0 +1,33 @@
+{
+  "name": "standort",
+  "description": "Ein Standort dienst mit Node (Express, Socket.io), React und MongoDB",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gottsohn/standort",
+  "engines": {
+    "node": "4.2.4",
+    "npm": "2.14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gottsohn/standort.git"
+  },
+  "author": "Godson Ukpere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gottsohn/standort/issues"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^7.0.0",
+    "mongoose": "^4.4.19",
+    "passport": "^0.3.2",
+    "react": "^15.1.0",
+    "supertest": "^1.2.0",
+    "webpack": "^1.13.1"
+  }
+}
