@@ -5,9 +5,6 @@ export default class Main extends React.Component {
 
  constructor(props) {
    super(props);
-   this.propTypes = {
-     children: React.PropTypes.element.isRequired
-   };
  }
 
  render() {
@@ -21,3 +18,7 @@ export default class Main extends React.Component {
     );
   }
 }
+
+Main.propTypes = {
+  children: React.PropTypes.element.isRequired
+};
