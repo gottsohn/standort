@@ -1,14 +1,28 @@
 {
   "name": "standort",
-  "description": "Ein Standort dienst mit Node (Express, Socket.io), React und MongoDB",
+  "description": "Ein Standort dienst mit Node (Express), React und Firebase",
   "version": "0.0.0",
   "main": "index.js",
-  "repository": "https://github.com/gottsohn/standort",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/gottsohn/standort.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gottsohn/standort.git"
+  },
+  "keywords": [
+    "express",
+    "webpack",
+    "node",
+    "react",
+    "firebase"
+  ],
   "engines": {
     "node": "6.2.1",
     "npm": "3.9.3"
   },
   "scripts": {
+    "test": "echo Coming through && exit 0",
     "start": "node index.js"
   },
   "dependencies": {
