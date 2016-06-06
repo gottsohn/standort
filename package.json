@@ -3,9 +3,10 @@
   "description": "Ein Standort dienst mit Node (Express), React und Firebase",
   "version": "0.0.0",
   "main": "index.js",
+  "license": "MIT",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/gottsohn/standort.git"
+    "type": "git",
+    "url": "https://github.com/gottsohn/standort.git"
   },
   "bugs": {
     "url": "https://github.com/gottsohn/standort.git"

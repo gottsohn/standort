@@ -9,3 +9,6 @@ Ein Standort dienst mit Node (Express, Socket.io), React und Firebase
 
 ### Project Management
 Pivotal Tracker (Publicly visible) - [Standort](https://www.pivotaltracker.com/n/projects/1601389)
+
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
