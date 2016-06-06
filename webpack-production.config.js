@@ -1,11 +1,9 @@
 import WebpackStrip from 'strip-loader';
 import devConfig from './webpack.config.js';
 
-delete devConfig.module.preLoaders;
 delete devConfig.plugins;
 delete devConfig.devtool;
-delete devConfig.entry.main[0];
-delete devConfig.entry.main[1];
+delete devConfig.entry;
 devConfig.devtool = 'source-map';
 devConfig.module.loaders.push({
   test: /\.js$/,
