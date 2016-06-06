@@ -38,5 +38,7 @@
         "browser": true,
         "node": true,
         "jasmine": true
-    }
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint"
 }
