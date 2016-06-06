@@ -10,6 +10,10 @@ const express = require('express'),
   routes = require('./server/routes'),
   app = express();
 
+if (config.isDevelopment) {
+   require('dotenv').load();
+}
+
 /* eslint-disable no-console */
 app.use(bodyParser.urlencoded({
   extended: true
@@ -21,7 +25,7 @@ app.use(express.static(__dirname + '/dist'));
 // all our routes go here
 routes(app, config);
 
-if (!config.isProduction) {
+if (config.isDevelopment) {
   const compiler = webpack(webpackConfig);
   const middleware = webpackMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
