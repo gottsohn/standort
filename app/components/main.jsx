@@ -2,11 +2,15 @@ import React from 'react';
 import Header from './shared/Header.jsx';
 
 export default class Main extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  propTypes: {
+   children: React.PropTypes.element
+ }
 
-  render() {
+ constructor(props) {
+   super(props);
+ }
+
+ render() {
     return (
       <div>
         <Header />
