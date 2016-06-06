@@ -1,55 +1,62 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import path from 'path';
-import morgan from 'morgan';
-import config from './server/config';
-import httpProxy from 'http-proxy';
-import routes from 'server/routes';
+const express = require('express'),
+  bodyParser = require('body-parser'),
+  path = require('path'),
+  morgan = require('morgan'),
+  config = require('./server/config'),
+  webpack = require('webpack'),
+  webpackMiddleware = require('webpack-dev-middleware'),
+  webpackHotMiddleware = require('webpack-hot-middleware'),
+  webpackConfig = require('./webpack.config.js'),
+  routes = require('./server/routes'),
+  app = express();
+
 /* eslint-disable no-console */
-const proxy = httpProxy.createProxyServer(),
-  app = express(),
-  publicPath = path.resolve(__dirname, 'public');
-
-// establish connection to mongoose
-mongoose.connect(config.database, (err) => {
-  if (err) {
-    console.log(err);
-  }
-});
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-app.use(express.static(publicPath));
+app.use(express.static(__dirname + '/dist'));
+// all our routes go here
+routes(app, config);
 
 if (!config.isProduction) {
-  var bundle = require('./bundle.js');
-  bundle();
+  const compiler = webpack(webpackConfig);
+  const middleware = webpackMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    contentBase: 'src',
+    stats: {
+      colors: true,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false,
+      modules: false
+    }
+  });
 
-  // Any requests to localhost:3000/build is proxied
-  // to webpack-dev-server
-  app.all('/public/*', function(req, res) {
-    proxy.web(req, res, {
-      target: 'http://localhost:3000'
-    });
+  app.use(middleware);
+  app.use(webpackHotMiddleware(compiler));
+  app.get('*', function response(req, res) {
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname,
+      'dist/index.html')));
+
+    res.end();
+  });
+} else {
+  app.use(express.static(__dirname + '/dist'));
+  app.get('*', function response(req, res) {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
 }
 
-proxy.on('error', (e) => {
-  console.log('Could not connect to proxy, please try again....', e);
-});
-
-// all our routes goes here
-routes(app, express);
-app.listen(config.port, (err) => {
+app.listen(config.port, '0.0.0.0', (err) => {
   if (err) {
-    throw err;
+    console.log(err);
   }
 
-  console.log('Server running on port:', config.port);
+  console.info('🌎  %s.', config.port);
 });
 
-export default app;
+module.exports = app;
