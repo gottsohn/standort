@@ -3,7 +3,6 @@ import Header from './shared/Header.jsx';
 
 export default class Main extends React.Component {
 
-
  constructor(props) {
    super(props);
    this.propTypes = {
