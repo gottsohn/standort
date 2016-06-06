@@ -10,8 +10,5 @@
     "parser": "babel-eslint",
     "plugins": [
         "react"
-    ],
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    ]
 }
