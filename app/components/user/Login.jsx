@@ -12,15 +12,12 @@ export default class Login extends React.Component {
     };
   }
 
-  authHandler(err, data) {
-    console.log(err, data);
+  authHandler() {
+
   }
 
   handleFacebookAuth() {
-    console.log(this.authHandler, 'fn');
-    firebase.authWithOAuthPopup('facebook', (err, data)=> {
-      console.log(err, data);
-    });
+    firebase.authWithOAuthPopup('facebook', this.authHandler);
   }
 
   handleGoogleAuth() {
