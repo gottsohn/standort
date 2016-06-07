@@ -1,6 +1,9 @@
 {
     "rules": {
       "strict": [1, "function"],
+      "quotes": [2, "single"],
+      "linebreak-style": [2, "unix"],
+      "semi": [2, "always"],
       "react/display-name": 0,
       "react/forbid-prop-types": 1,
       "react/jsx-boolean-value": 1,

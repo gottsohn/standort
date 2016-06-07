@@ -1,3 +1,7 @@
+if (!process.env.NODE_ENV) {
+   require('dotenv').load();
+}
+
 const express = require('express'),
   bodyParser = require('body-parser'),
   path = require('path'),
@@ -9,11 +13,7 @@ const express = require('express'),
   webpackConfig = require('./webpack.config.js'),
   routes = require('./server/routes'),
   app = express();
-
-if (config.isDevelopment) {
-   require('dotenv').load();
-}
-
+  
 /* eslint-disable no-console */
 app.use(bodyParser.urlencoded({
   extended: true
