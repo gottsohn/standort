@@ -39,4 +39,4 @@ export default class Header extends React.Component {
 
 Header.propTypes = {
   title: React.PropTypes.string.isRequired
-}
+};

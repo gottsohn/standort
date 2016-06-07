@@ -8,8 +8,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Profile from './components/user/Profile.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 injectTapEventPlugin();
+
 const Application = () => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <Router history={browserHistory}>
