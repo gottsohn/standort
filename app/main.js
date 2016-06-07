@@ -4,13 +4,22 @@ import {render} from 'react-dom';
 import App from './components/main.jsx';
 import Home from './components/shared/Home.jsx';
 import Login from './components/user/Login.jsx';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import Profile from './components/user/Profile.jsx';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-render((
-  <Router history={browserHistory}>
-    <Route component={App} path="/">
-      <IndexRoute component={Home}/>
-      <Route component={Login} path="/login"/>
-      <Route component={Profile} path="/user/:id"/>
-    </Route>
-  </Router>), document.getElementById('root'));
+injectTapEventPlugin();
+const Application = () => (
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    <Router history={browserHistory}>
+      <Route component={App} path="/">
+        <IndexRoute component={Home}/>
+        <Route component={Login} path="/login"/>
+        <Route component={Profile} path="/user/:id"/>
+      </Route>
+    </Router>
+  </MuiThemeProvider>
+);
+
+render((<Application />), document.getElementById('root'));
