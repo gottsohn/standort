@@ -1,31 +1,46 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import firebase from '../shared/Firebase';
+import {auth, providers} from '../../databse';
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.authHandler = this.authHandler.bind(this);
+    this.handleFacebookAuth = this.handleFacebookAuth.bind(this);
+    this.handleGoogleAuth = this.handleGoogleAuth.bind(this);
+    this.handleGitHubAuth = this.handleGitHubAuth.bind(this);
     this.state = {
       user: null
     };
   }
 
-  authHandler() {
-
+  authHandler(err, data) {
+    console.log(err, data);
   }
 
   handleFacebookAuth() {
-    firebase.authWithOAuthPopup('facebook', this.authHandler);
+    auth.signInWithPopup(providers.facebook).then((result) => {
+      this.authHandler(null, result);
+    }).catch((error) => {
+      this.authHandler(error);
+    });
   }
 
   handleGoogleAuth() {
-    firebase.authWithOAuthPopup('google', this.authHandler);
+    auth.signInWithPopup(providers.google).then((result) => {
+      this.authHandler(null, result);
+    }).catch((error) => {
+      this.authHandler(error);
+    });
   }
 
   handleGitHubAuth() {
-    firebase.authWithOAuthPopup('github', this.authHandler);
+    auth.signInWithPopup(providers.github).then((result) => {
+      this.authHandler(null, result);
+    }).catch((error) => {
+      this.authHandler(error);
+    });
   }
 
   render() {
