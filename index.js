@@ -5,7 +5,6 @@ if (!process.env.NODE_ENV) {
 const express = require('express'),
   bodyParser = require('body-parser'),
   path = require('path'),
-  morgan = require('morgan'),
   config = require('./server/config'),
   webpack = require('webpack'),
   webpackMiddleware = require('webpack-dev-middleware'),
@@ -13,14 +12,13 @@ const express = require('express'),
   webpackConfig = require('./webpack.config.js'),
   routes = require('./server/routes'),
   app = express();
-  
+
 /* eslint-disable no-console */
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
 app.use(bodyParser.json());
-app.use(morgan('dev'));
 app.use(express.static(__dirname + '/dist'));
 // all our routes go here
 routes(app, config);
