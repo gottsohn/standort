@@ -1,9 +1,8 @@
 import React from 'react';
-import Header from './shared/Header.jsx';
-import {container} from '../styles/App.css';
+import Header from './components/shared/Header.jsx';
+import styles from './App.css';
 
-export default class Main extends React.Component {
-
+export default class App extends React.Component {
  constructor(props) {
    super(props);
    this.state = {
@@ -21,7 +20,7 @@ export default class Main extends React.Component {
     return (
       <div>
         <Header title={this.state.title} />
-        <div className={container}>
+        <div className={styles.container}>
           {this.props.children}
         </div>
       </div>
@@ -29,10 +28,10 @@ export default class Main extends React.Component {
   }
 }
 
-Main.propTypes = {
+App.propTypes = {
   children: React.PropTypes.element.isRequired
 };
 
-Main.childContextTypes = {
+App.childContextTypes = {
   title: React.PropTypes.string.isRequired
 };
