@@ -1,5 +1,5 @@
 import React from 'react';
-import {header} from '../../styles/App.css';
+import styles from '../../App.css';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -15,7 +15,7 @@ export default class Header extends React.Component {
 
   render() {
     return (
-      <AppBar className={header}
+      <AppBar className={styles.header}
           iconElementLeft={
             <Link to="/"><IconButton><ActionHome /></IconButton></Link>
           }

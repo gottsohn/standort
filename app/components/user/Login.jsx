@@ -1,7 +1,7 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import {auth, providers} from '../../databse';
+import {auth, providers} from '../../database';
 
 export default class Login extends React.Component {
   constructor(props) {
