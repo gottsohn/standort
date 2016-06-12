@@ -28,6 +28,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "alt": "^0.18.4",
     "babel-cli": "^6.4.0",
     "body-parser": "^1.15.1",
     "classnames": "^2.2.5",
@@ -44,8 +45,8 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "babel-eslint": "^4.1.6",
-    "babel-loader": "^6.2.3",
     "babel-jscs": "^2.0.5",
+    "babel-loader": "^6.2.3",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.0",
@@ -71,8 +72,8 @@
     "sinon-chai": "^2.8.0",
     "stats-webpack-plugin": "^0.2.1",
     "style-loader": "^0.12.4",
-    "webpack": "^1.12.2",
-    "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.2.0"
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.10.0"
   }
 }
