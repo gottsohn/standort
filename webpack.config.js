@@ -1,20 +1,18 @@
 const path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
-  
+
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
     'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'app/main.js')
   ],
-
   output: {
-    filename: '[name].js',
     path: path.join(__dirname, '/dist/'),
+    filename: '[name].js',
     publicPath: '/'
   },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: 'app/index.tpl.html',
@@ -28,20 +26,20 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('development')
     })
   ],
-
   module: {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel',
       query: {
-        'presets': ['react', 'es2015']
+        'presets': ['react', 'es2015', 'stage-0', 'react-hmre']
       }
     }, {
-      test: /\.css?$/,
-      include: path.join(__dirname, 'app'),
-      exclude: /node_modules/,
-      loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5'
+      test: /\.json?$/,
+      loader: 'json'
+    }, {
+      test: /\.css$/,
+      loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]'
     }]
   }
 };
