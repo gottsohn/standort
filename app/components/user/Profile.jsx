@@ -43,15 +43,9 @@ export default class Profile extends React.Component {
       user: state.get.user,
       error: state.get.error
     });
-
-    if (state.update.user) {
-      console.log('update yo arse');
-      // SessionActions.getSession(this.getSession);
-    }
   }
 
   getSession(state) {
-    console.log(state.session.friends);
     state.session.friends = state.session.friends || {};
     this.setState({
       currentUser: state.session
@@ -67,7 +61,7 @@ export default class Profile extends React.Component {
             <Paper style={{padding: '20px'}}>
               <img src={this.state.user.photo} />
               <h2>{this.state.user.name}</h2>
-              {this.state.currentUser.id !== this.state.user.id || true?
+              {this.state.currentUser.id !== this.state.user.id ?
                 <FlatButton label={this.state.currentUser.friends[this.state.user.id]? 'Remove Friend': 'Add Friend'}
                     onTouchTap={this.handleAddFriend}
                 /> : null}
