@@ -21,7 +21,6 @@ export default class Login extends React.Component {
     };
   }
 
-
   componentDidMount() {
     SessionStore.listen(this.getCurrentUser);
   }
