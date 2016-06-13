@@ -35,7 +35,7 @@ export default class Profile extends React.Component {
       currentUser.friends[this.state.user.id] = 1;
     }
 
-    // UserActions.update(currentUser);
+    UserActions.update(currentUser);
   }
 
   userStore(state) {
@@ -62,7 +62,7 @@ export default class Profile extends React.Component {
               <img src={this.state.user.photo} />
               <h2>{this.state.user.name}</h2>
               {this.state.currentUser.id !== this.state.user.id ?
-                <FlatButton label={this.state.currentUser.friends[this.state.user.id]? 'Remove Friend': 'Add Friend'}
+                <FlatButton label={this.state.currentUser.friends[this.state.user.id] ? 'Remove Friend': 'Add Friend'}
                     onTouchTap={this.handleAddFriend}
                 /> : null}
             </Paper>
