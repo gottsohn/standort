@@ -5,10 +5,12 @@ class SessionActions {
     getSession() {
       const session = firebase.auth.currentUser;
       if (session) {
-          this.sessionSuccess(session);
+        this.sessionSuccess(session);
       } else {
         this.sessionError();
       }
+
+      return true;
     }
 
     sessionSuccess(user) {
@@ -28,7 +30,9 @@ class SessionActions {
     }
 
     sessionError() {
-      return 'No Current User';
+      return {
+        error: 'No active user'
+      };
     }
 }
 
