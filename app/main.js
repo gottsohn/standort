@@ -16,7 +16,7 @@ render((
     <Route component={App} path="/">
       <IndexRoute component={Home}/>
       <Route component={Login} path="/login"/>
-      <Route component={Profile} path="/user/:id"/>
+      <Route component={Profile} path="/users/:id"/>
     </Route>
   </Router>
 </MuiThemeProvider>), document.getElementById('root'));
