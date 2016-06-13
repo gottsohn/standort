@@ -6,21 +6,25 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import ActionHome from 'material-ui/svg-icons/action/home';
+import NavigationHome from 'material-ui/svg-icons/navigation/menu';
 import Avatar from 'material-ui/Avatar';
+import Divider from 'material-ui/Divider';
 
 import styles from '../../App.css';
 import firebase from '../../database';
 import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
+import LeftDrawer from './LeftDrawer.jsx';
 
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
+    this.handleSideNavigation = this.handleSideNavigation.bind(this);
     this.state = {
-      user: null
+      user: null,
+      isDrawerOpen: false
     };
   }
 
@@ -40,14 +44,22 @@ export default class Header extends React.Component {
     }
   }
 
+  handleSideNavigation() {
+    this.setState({
+      isDrawerOpen: !this.state.isDrawerOpen
+    });
+  }
+
   render() {
     return (
+      <div>
+      <LeftDrawer open={this.state.isDrawerOpen} title={this.props.title} />
       <AppBar className={styles.header}
-          iconElementLeft={
-            <Link to="/"><IconButton><ActionHome /></IconButton></Link>
+          iconElementLeft = {
+            <IconButton onTouchTap={this.handleSideNavigation}><NavigationHome /></IconButton>
           }
 
-          iconElementRight={
+          iconElementRight = {
               <IconMenu
                   anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                   iconButtonElement={
@@ -55,14 +67,16 @@ export default class Header extends React.Component {
                   }
                   targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
-                {this.state.user ? <Link to={`/users/${this.state.user.id}`}><MenuItem primaryText="My Profile"/></Link>:null}
+                {this.state.user ? <Link to={`/users/${this.state.user.id}`}><MenuItem primaryText="My Profile"/></Link> : null}
                 <Link to="/"><MenuItem primaryText="Help" /></Link>
+                <Divider />
                 {this.state.user ? <MenuItem onTouchTap={this.handleSignOut} primaryText="Sign out"/> : <Link to="/login"><MenuItem primaryText="Login" /></Link>}
 
               </IconMenu>
             }
           title={this.props.title}
-      />);
+      />
+      </div>);
   }
 }
 
