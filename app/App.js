@@ -58,30 +58,32 @@ export default class App extends React.Component {
       userRef.once('value', (snap) => {
         if(!snap.val()) {
           // Save user if user doesn't exist
+          state.session.createdAt = Date.now();
           userRef.set(state.session);
         } else {
           // Update user's photo, token an id for existing users
           userRef.update({
             photo: state.session.photo,
             refreshToken: state.session.refreshToken,
-            uid: state.session.uid
+            uid: state.session.uid,
+            lastSeenAt: Date.now()
           });
         }
       });
     }
   }
 
-   render() {
-      return (
-        <div>
-          <Header title={this.state.title} />
-          <div className={styles.container}>
-            {this.props.children}
-          </div>
+  render() {
+    return (
+      <div>
+        <Header title={this.state.title} />
+        <div className={styles.container}>
+          {this.props.children}
         </div>
-      );
-    }
+      </div>
+    );
   }
+}
 
   App.propTypes = {
     children: React.PropTypes.element.isRequired
