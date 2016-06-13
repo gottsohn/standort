@@ -62,12 +62,6 @@ export default class App extends React.Component {
           userRef.set(state.session);
         } else {
           // Update user's photo, token an id for existing users
-          userRef.update({
-            photo: state.session.photo,
-            refreshToken: state.session.refreshToken,
-            uid: state.session.uid,
-            lastSeenAt: Date.now()
-          });
         }
       });
     }
