@@ -4,6 +4,7 @@ import UserActions from '../../actions/UserActions';
 import UserStore from '../../stores/UserStore';
 import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
+import PublicActions from '../../actions/PublicActions';
 import FriendRequestButton from '../shared/FriendRequestButton.jsx';
 
 export default class Profile extends React.Component {
@@ -25,6 +26,7 @@ export default class Profile extends React.Component {
     UserStore.listen(this.userStore);
     UserActions.get(this.props.params.id);
     SessionActions.getSession();
+    PublicActions.setTitle('Profile');
   }
 
   userStore(state) {
@@ -32,6 +34,10 @@ export default class Profile extends React.Component {
       user: state.get.user,
       error: state.get.error
     });
+
+    // if (state.get.user) {
+    //   PublicActions.setTitle(state.get.user.name);
+    // }
   }
 
   getSession(state) {
