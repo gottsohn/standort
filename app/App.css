@@ -9,7 +9,11 @@ body {
     padding: 20px;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     margin: 5px 0;
     color: #555;
 }
@@ -18,4 +22,23 @@ a {
     text-decoration: none;
 }
 
-.header {}
+.userCard {
+  width: 160px;
+  text-align: center;
+  display: inline-block;
+  margin: 5px 10px;
+  opacity: 1;
+}
+
+.userCard:hover .imageCard {
+  opacity: 0.5;
+}
+
+.imageCard {
+  transition-duration: 0.5s;
+  border-radius: 50%;
+  max-height: 96px;
+  background-color: #efefef;
+  padding: 3px;
+
+}
