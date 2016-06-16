@@ -15,6 +15,7 @@ import firebase from '../../database';
 import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
 import LeftDrawer from './LeftDrawer.jsx';
+import DrawerActions from '../../actions/DrawerActions';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -33,27 +34,23 @@ export default class Header extends React.Component {
   }
 
   handleSignOut() {
-    firebase.auth.signout(SessionActions.getSession);
+    firebase.auth.signOut().then(SessionActions.getSession);
   }
 
   getCurrentUser(state) {
-    if (state.session) {
-      this.setState({
-        user: state.session
-      });
-    }
+    this.setState({
+      user: state.session
+    });
   }
 
   handleSideNavigation() {
-    this.setState({
-      isDrawerOpen: !this.state.isDrawerOpen
-    });
+    DrawerActions.open(true);
   }
 
   render() {
     return (
       <div>
-      <LeftDrawer open={this.state.isDrawerOpen} title={this.props.title} />
+      <LeftDrawer title={this.props.title} />
       <AppBar className={styles.header}
           iconElementLeft = {
             <IconButton onTouchTap={this.handleSideNavigation}><NavigationHome /></IconButton>
