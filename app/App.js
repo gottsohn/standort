@@ -11,7 +11,6 @@ export default class App extends React.Component {
     this.authCallback = this.authCallback.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
     this.state = {
-      title: 'Standort',
       user: {
         id: null
       }
@@ -20,7 +19,6 @@ export default class App extends React.Component {
 
   getChildContext() {
       return {
-        title: this.state.title,
         user: this.state.user
       };
   }
@@ -68,7 +66,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Header title={this.state.title} />
+        <Header />
         <div className={styles.container}>
           {this.props.children}
         </div>
@@ -82,7 +80,6 @@ export default class App extends React.Component {
   };
 
   App.childContextTypes = {
-    title: React.PropTypes.string.isRequired,
     user: React.PropTypes.shape({
       name: React.PropTypes.string,
       id: React.PropTypes.string,
