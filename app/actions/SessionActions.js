@@ -10,7 +10,7 @@ class SessionActions {
           userId = `${userData.providerId.split(/\./)[0]}:${userData.uid}`,
           userRef = firebase.database.ref(`users/${userId}`),
           session = {
-            name: userData.displayName,
+            name: userData.displayName || 'John Smith',
             email: userData.email,
             id: userId,
             uid: user.uid,
@@ -33,7 +33,7 @@ class SessionActions {
           }
         });
       } else {
-        this.sessionError();
+        this.sessionSuccess(null);
       }
 
       return true;
