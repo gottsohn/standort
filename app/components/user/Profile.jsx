@@ -23,7 +23,7 @@ export default class Profile extends React.Component {
 
   componentDidMount() {
     SessionStore.listen(this.getSession);
-    UserStore.listen(this.userStore, 'getUser');
+    UserStore.listen(this.userStore);
     UserActions.get(this.props.params.id);
   }
 
@@ -32,10 +32,12 @@ export default class Profile extends React.Component {
     if (currentUser.friends[this.state.user.id]) {
       delete currentUser.friends[this.state.user.id];
     } else {
-      currentUser.friends[this.state.user.id] = 1;
+      currentUser.sentRequests[this.state.user.id] = 1;
     }
 
     UserActions.update(currentUser);
+    UserActions.set(this.state.user,
+      `receivedRequests/${this.state.currentUser.id}`, 1);
   }
 
   userStore(state) {
@@ -47,6 +49,7 @@ export default class Profile extends React.Component {
 
   getSession(state) {
     state.session.friends = state.session.friends || {};
+    state.session.sentRequests = state.session.sentRequests || {};
     this.setState({
       currentUser: state.session
     });
@@ -56,20 +59,19 @@ export default class Profile extends React.Component {
     return (
       <div>
         {
-          this.state.error ? <h2>this.state.error</h2> :
+          this.state.error ? <h2>{this.state.error}</h2> :
           <div>
             <Paper style={{padding: '20px'}}>
               <img src={this.state.user.photo} />
               <h2>{this.state.user.name}</h2>
               {this.state.currentUser.id !== this.state.user.id ?
-                <FlatButton label={this.state.currentUser.friends[this.state.user.id] ? 'Remove Friend': 'Add Friend'}
+                <FlatButton label={this.state.currentUser.friends[this.state.user.id] ? 'Unfriend': 'Send Request'}
                     onTouchTap={this.handleAddFriend}
                 /> : null}
             </Paper>
           </div>
         }
       </div>
-
     );
   }
 }
