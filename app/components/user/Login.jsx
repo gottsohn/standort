@@ -26,11 +26,9 @@ export default class Login extends React.Component {
   }
 
   getCurrentUser(state) {
-    if (state.session) {
-      this.setState({
-        user: state.session
-      });
-    }
+    this.setState({
+      user: state.session
+    });
   }
 
   authHandler(err) {

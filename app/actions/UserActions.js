@@ -2,20 +2,21 @@ import firebase from '../database';
 import alt from '../lib/alt';
 
 class UserActions {
-    get(userId) {
-      firebase.database.ref(`users/${userId}`).once('value', (snap) => {
-        if (snap.val()) {
-            this.getSuccess(snap.val());
-        } else {
-          this.getError();
-        }
-      });
+  get(userId) {
+    firebase.database.ref(`users/${userId}`).once('value', (snap) => {
+      if (snap.val()) {
+        this.getSuccess(snap.val());
+      } else {
+        this.getError();
+      }
+    });
 
-      return true;
-    }
+    return true;
+  }
 
-    update(user) {
-      firebase.database.ref(`users/${user.id}`).update(user, (error) => {
+  update(user, fields) {
+    firebase.database.ref(`users/${user.id}`).update(fields || user,
+      (error) => {
         if (error) {
           this.updateError(error);
         } else {
@@ -23,28 +24,30 @@ class UserActions {
         }
       });
 
-      return true;
-    }
+    return true;
+  }
 
-    getSuccess(user) {
-      return user;
-    }
+  set(user, key, value) {
+    return firebase.database.ref(`users/${user.id}/${key}`).set(value);
+  }
 
-    getError() {
-      return {
-        error: 'User not found'
-      };
-    }
+  getSuccess(user) {
+    return user;
+  }
 
-    updateSuccess(user) {
-      return user;
-    }
+  getError() {
+    return 'User not found';
+  }
 
-    updateError() {
-      return {
-        error: 'User not updated'
-      };
-    }
+  updateSuccess(user) {
+    return user;
+  }
+
+  updateError() {
+    return {
+      error: 'User not updated'
+    };
+  }
 }
 
 export default alt.createActions(UserActions);

@@ -12,6 +12,8 @@ import AutoComplete from 'material-ui/AutoComplete';
 import firebase from '../../database';
 import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
+import DrawerStore from '../../stores/DrawerStore';
+import DrawerActions from '../../actions/DrawerActions';
 
 export default class LeftDrawer extends React.Component {
     constructor(props) {
@@ -19,6 +21,7 @@ export default class LeftDrawer extends React.Component {
       this.getSession = this.getSession.bind(this);
       this.handleUpdateInput = this.handleUpdateInput.bind(this);
       this.handleRequestChange = this.handleRequestChange.bind(this);
+      this.drawerStateChanged = this.drawerStateChanged.bind(this);
       this.handleSideNavigation = this.handleSideNavigation.bind(this);
       this.state = {
         user: null,
@@ -28,22 +31,15 @@ export default class LeftDrawer extends React.Component {
       };
     }
 
-    componentWillMount() {
-      this.setState({
-        open: this.props.open
-      });
-    }
-
     componentDidMount() {
       SessionStore.listen(this.getSession);
+      DrawerStore.listen(this.drawerStateChanged);
     }
 
-    componentWillReceiveProps() {
-      this.setState({
-        open: !this.state.open
-      });
+    drawerStateChanged(state) {
+      this.handleRequestChange(state.isOpen);
     }
-
+    
     getSession(state) {
       this.setState({
         user: state.session
@@ -51,13 +47,11 @@ export default class LeftDrawer extends React.Component {
     }
 
     handleSideNavigation() {
-      this.setState({
-        open: !this.state.open
-      });
+      DrawerActions.open(false);
     }
 
     handleSignOut() {
-      firebase.auth.signout(SessionActions.getSession);
+      firebase.auth.signOut().then(SessionActions.getSession);
     }
 
     handleUpdateInput() {
@@ -71,6 +65,10 @@ export default class LeftDrawer extends React.Component {
     }
 
     render() {
+      const handleCloseDrawer = () => {
+        this.handleRequestChange(false);
+      };
+
       return (
         <Drawer
             docked={false}
@@ -83,7 +81,7 @@ export default class LeftDrawer extends React.Component {
                 <IconButton onTouchTap={this.handleSideNavigation}><NavigationClose /></IconButton>
               }
 
-              title={this.props.title}
+              title={<Link style={{color: '#fff'}} to="/">{this.props.title}</Link>}
           />
           <AutoComplete
               dataSource={this.state.friends}
@@ -96,7 +94,7 @@ export default class LeftDrawer extends React.Component {
           <Menu autoWidth={false} width={this.state.width}>
            {this.state.user ?
              <Link to={`/users/${this.state.user.id}`}><MenuItem primaryText="My Profile" /></Link> :
-             <Link to="/login"><MenuItem primaryText="Login" /></Link>}
+             <Link to="/login"><MenuItem onTouchTap={handleCloseDrawer} primaryText="Login" /></Link>}
            {this.state.user ?
              <Link to="/search"><MenuItem primaryText="Find People" /></Link> :
              null}
@@ -110,6 +108,5 @@ export default class LeftDrawer extends React.Component {
 }
 
 LeftDrawer.propTypes = {
-  open: React.PropTypes.bool.isRequired,
   title: React.PropTypes.string.isRequired
 };

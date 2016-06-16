@@ -48,7 +48,7 @@ export default class App extends React.Component {
   }
 
   getCurrentUser(state) {
-    if (state.session) {
+    if (state.session && state.session.id) {
       const userRef = firebase.database.ref(`users/${state.session.id}`);
       // Save the user in the state
       this.setState({
@@ -60,8 +60,6 @@ export default class App extends React.Component {
           // Save user if user doesn't exist
           state.session.createdAt = Date.now();
           userRef.set(state.session);
-        } else {
-          // Update user's photo, token an id for existing users
         }
       });
     }
