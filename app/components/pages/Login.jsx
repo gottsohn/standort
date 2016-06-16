@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import firebase from '../../database';
 import Snackbar from 'material-ui/Snackbar';
 import SessionStore from '../../stores/SessionStore';
+import PublicActions from '../../actions/PublicActions';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     SessionStore.listen(this.getCurrentUser);
+    PublicActions.setTitle('Login');
   }
 
   getCurrentUser(state) {

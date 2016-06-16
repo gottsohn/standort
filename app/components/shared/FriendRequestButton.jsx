@@ -1,5 +1,5 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import UserActions from '../../actions/UserActions';
 import UserStore from '../../stores/UserStore';
 import SessionStore from '../../stores/SessionStore';
@@ -14,7 +14,8 @@ export default class FriendRequestButton extends React.Component {
       user: {},
       currentUser: {
         friends: {},
-        sentRequests: {}
+        sentRequests: {},
+        receivedRequests: {}
       }
     };
   }
@@ -77,6 +78,7 @@ export default class FriendRequestButton extends React.Component {
     if (state.session) {
       state.session.friends = state.session.friends || {};
       state.session.sentRequests = state.session.sentRequests || {};
+      state.session.receivedRequests = state.session.receivedRequests || {};
     }
 
     this.setState({
@@ -103,7 +105,7 @@ export default class FriendRequestButton extends React.Component {
     return (
       <div>
       {label ?
-        <FlatButton label={label}
+        <RaisedButton label={label}
             onTouchTap={this.handleAddFriend}
         /> :
          label
@@ -113,16 +115,13 @@ export default class FriendRequestButton extends React.Component {
   }
 }
 
-FriendRequestButton.propTypes = {
-  currentUser: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    name: React.PropTypes.string,
-    photo: React.PropTypes.string
-  }),
+const userPropShape = {
+  id: React.PropTypes.string,
+  name: React.PropTypes.string,
+  photo: React.PropTypes.string
+};
 
-  user: React.PropTypes.shape({
-      id: React.PropTypes.string,
-      name: React.PropTypes.string,
-      photo: React.PropTypes.string
-  })
+FriendRequestButton.propTypes = {
+  currentUser: React.PropTypes.shape(userPropShape),
+  user: React.PropTypes.shape(userPropShape)
 };
