@@ -1,23 +1,22 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
 import UserActions from '../../actions/UserActions';
 import UserStore from '../../stores/UserStore';
 import SessionStore from '../../stores/SessionStore';
-// import SessionActions from '../../actions/SessionActions';
+import SessionActions from '../../actions/SessionActions';
+import FriendRequestButton from '../shared/FriendRequestButton.jsx';
 
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.userStore = this.userStore.bind(this);
     this.getSession = this.getSession.bind(this);
-    this.handleAddFriend = this.handleAddFriend.bind(this);
     this.state = {
       user: {},
       currentUser: {
-        friends: {}
-      },
-      error: null
+        friends: {},
+        sentRequests: {}
+      }
     };
   }
 
@@ -25,19 +24,7 @@ export default class Profile extends React.Component {
     SessionStore.listen(this.getSession);
     UserStore.listen(this.userStore);
     UserActions.get(this.props.params.id);
-  }
-
-  handleAddFriend() {
-    let currentUser = this.state.currentUser;
-    if (currentUser.friends[this.state.user.id]) {
-      delete currentUser.friends[this.state.user.id];
-    } else {
-      currentUser.sentRequests[this.state.user.id] = 1;
-    }
-
-    UserActions.update(currentUser);
-    UserActions.set(this.state.user,
-      `receivedRequests/${this.state.currentUser.id}`, 1);
+    SessionActions.getSession();
   }
 
   userStore(state) {
@@ -48,8 +35,11 @@ export default class Profile extends React.Component {
   }
 
   getSession(state) {
-    state.session.friends = state.session.friends || {};
-    state.session.sentRequests = state.session.sentRequests || {};
+    if (state.session) {
+      state.session.friends = state.session.friends || {};
+      state.session.sentRequests = state.session.sentRequests || {};
+    }
+
     this.setState({
       currentUser: state.session
     });
@@ -64,10 +54,7 @@ export default class Profile extends React.Component {
             <Paper style={{padding: '20px'}}>
               <img src={this.state.user.photo} />
               <h2>{this.state.user.name}</h2>
-              {this.state.currentUser.id !== this.state.user.id ?
-                <FlatButton label={this.state.currentUser.friends[this.state.user.id] ? 'Unfriend': 'Send Request'}
-                    onTouchTap={this.handleAddFriend}
-                /> : null}
+              <FriendRequestButton currentUser={this.state.currentUser} user={this.state.user} />
             </Paper>
           </div>
         }
