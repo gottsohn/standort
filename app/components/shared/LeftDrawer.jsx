@@ -39,7 +39,7 @@ export default class LeftDrawer extends React.Component {
     drawerStateChanged(state) {
       this.handleRequestChange(state.isOpen);
     }
-    
+
     getSession(state) {
       this.setState({
         user: state.session
@@ -81,7 +81,7 @@ export default class LeftDrawer extends React.Component {
                 <IconButton onTouchTap={this.handleSideNavigation}><NavigationClose /></IconButton>
               }
 
-              title={<Link style={{color: '#fff'}} to="/">{this.props.title}</Link>}
+              title={<Link style={{color: '#fff'}} to="/">Standort</Link>}
           />
           <AutoComplete
               dataSource={this.state.friends}
@@ -106,7 +106,3 @@ export default class LeftDrawer extends React.Component {
       );
     }
 }
-
-LeftDrawer.propTypes = {
-  title: React.PropTypes.string.isRequired
-};

@@ -13,6 +13,7 @@ import Divider from 'material-ui/Divider';
 import styles from '../../App.css';
 import firebase from '../../database';
 import SessionStore from '../../stores/SessionStore';
+import PublicStore from '../../stores/PublicStore';
 import SessionActions from '../../actions/SessionActions';
 import LeftDrawer from './LeftDrawer.jsx';
 import DrawerActions from '../../actions/DrawerActions';
@@ -21,16 +22,19 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.setTitle = this.setTitle.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
     this.handleSideNavigation = this.handleSideNavigation.bind(this);
     this.state = {
       user: null,
+      title: 'Standort',
       isDrawerOpen: false
     };
   }
 
   componentDidMount() {
     SessionStore.listen(this.getCurrentUser);
+    PublicStore.listen(this.setTitle);
   }
 
   handleSignOut() {
@@ -47,10 +51,16 @@ export default class Header extends React.Component {
     DrawerActions.open(true);
   }
 
+  setTitle(state) {
+    this.setState({
+      title: state.title
+    });
+  }
+
   render() {
     return (
       <div>
-      <LeftDrawer title={this.props.title} />
+      <LeftDrawer />
       <AppBar className={styles.header}
           iconElementLeft = {
             <IconButton onTouchTap={this.handleSideNavigation}><NavigationHome /></IconButton>
@@ -71,12 +81,8 @@ export default class Header extends React.Component {
 
               </IconMenu>
             }
-          title={this.props.title}
+          title={this.state.title}
       />
       </div>);
   }
 }
-
-Header.propTypes = {
-  title: React.PropTypes.string.isRequired
-};
