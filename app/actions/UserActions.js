@@ -28,7 +28,8 @@ class UserActions {
   }
 
   set(user, key, value) {
-    return firebase.database.ref(`users/${user.id}/${key}`).set(value);
+    firebase.database.ref(`users/${user.id}/${key}`).set(value);
+    return true;
   }
 
   getSuccess(user) {
