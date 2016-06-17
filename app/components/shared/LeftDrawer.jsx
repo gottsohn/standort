@@ -8,12 +8,14 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import AutoComplete from 'material-ui/AutoComplete';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
 import firebase from '../../database';
 import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
 import DrawerStore from '../../stores/DrawerStore';
 import DrawerActions from '../../actions/DrawerActions';
+import UserMenu from './UserMenu.jsx';
 
 export default class LeftDrawer extends React.Component {
     constructor(props) {
@@ -41,8 +43,19 @@ export default class LeftDrawer extends React.Component {
     }
 
     getSession(state) {
+      let friends = [],
+        user = state.session;
+
+      if (user) {
+        if (user.friends) {
+          friends = user.friends;
+          friends = Object.keys(friends).map(key => friends[key]);
+        }
+      }
+
       this.setState({
-        user: state.session
+        user,
+        friends
       });
     }
 
@@ -51,7 +64,14 @@ export default class LeftDrawer extends React.Component {
     }
 
     handleSignOut() {
-      firebase.auth.signOut().then(SessionActions.getSession);
+      firebase.auth.signOut().then((err) => {
+        if (!err) {
+          SessionActions.getSession();
+          // console.log('logout ok');
+        } else {
+          // console.log(err, 'logout error');
+        }
+      });
     }
 
     handleUpdateInput() {
@@ -62,6 +82,12 @@ export default class LeftDrawer extends React.Component {
       this.setState({
         open
       });
+    }
+
+    userMenu(user) {
+      return (
+        <UserMenu user={user} />
+      );
     }
 
     render() {
@@ -91,10 +117,19 @@ export default class LeftDrawer extends React.Component {
               onUpdateInput={this.handleUpdateInput}
               style={{padding: '0 0 0 20px'}}
           />
-          <Menu autoWidth={false} width={this.state.width}>
+          <Menu autoWidth={false} onTouchTap={handleCloseDrawer} width={this.state.width}>
            {this.state.user ?
              <Link to={`/users/${this.state.user.id}`}><MenuItem primaryText="My Profile" /></Link> :
              <Link to="/login"><MenuItem onTouchTap={handleCloseDrawer} primaryText="Login" /></Link>}
+             {
+               this.state.user ?
+               <MenuItem
+                   disabled={!this.state.friends.length}
+                   menuItems={this.state.friends.map(this.userMenu)}
+                   primaryText="My Friends"
+                   rightIcon={<ArrowDropRight />}
+               /> : null
+             }
            {this.state.user ?
              <Link to="/search"><MenuItem primaryText="Find People" /></Link> :
              null}

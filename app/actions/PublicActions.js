@@ -2,7 +2,8 @@ import alt from '../lib/alt';
 
 class PublicActions {
   setTitle(title) {
-    return this.title(title);
+    this.title(title);
+    return true;
   }
 
   title(title) {

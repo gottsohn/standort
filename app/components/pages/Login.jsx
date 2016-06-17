@@ -10,6 +10,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.authHandler = this.authHandler.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.renderAuth = this.renderAuth.bind(this);
     this.handleAuth = this.handleAuth.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
@@ -25,6 +26,10 @@ export default class Login extends React.Component {
   componentDidMount() {
     SessionStore.listen(this.getCurrentUser);
     PublicActions.setTitle('Login');
+  }
+
+  componentWillUnmount() {
+    SessionStore.unlisten(this.getCurrentUser);
   }
 
   getCurrentUser(state) {

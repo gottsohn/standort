@@ -23,10 +23,12 @@ a {
 }
 
 .userCard {
-  width: 160px;
+  width: 200px;
+  height: 200px;
   text-align: center;
   display: inline-block;
-  margin: 5px 10px;
+  margin: 10px;
+  clear: both;
   opacity: 1;
 }
 
@@ -40,5 +42,16 @@ a {
   max-height: 96px;
   background-color: #efefef;
   padding: 3px;
+}
 
+.buttonContainer {
+  height: 60px;
+  display: block;
+  overflow: hidden;
+}
+
+.inlineBlock {
+  display: inline-block;
+  margin: 5px;
+  vertical-align: top;
 }

@@ -1,102 +1,115 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import UserActions from '../../actions/UserActions';
-import UserStore from '../../stores/UserStore';
-import SessionStore from '../../stores/SessionStore';
 
 export default class FriendRequestButton extends React.Component {
   constructor(props) {
     super(props);
-    this.userStore = this.userStore.bind(this);
-    this.getSession = this.getSession.bind(this);
     this.handleAddFriend = this.handleAddFriend.bind(this);
     this.state = {
       user: {},
-      currentUser: {
-        friends: {},
-        sentRequests: {},
-        receivedRequests: {}
-      }
+      currentUser: {}
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      user: this.props.user,
-      currentUser: this.props.currentUser
-    });
-  }
+  componentWillReceiveProps(newProps) {
+    if (!this.state.currentUser.id && newProps.currentUser &&
+        newProps.currentUser.id) {
 
-  componentDidMount() {
-    SessionStore.listen(this.getSession);
-    UserStore.listen(this.userStore);
+      let currentUser = newProps.currentUser;
+      currentUser.friends = currentUser.friends || {};
+      currentUser.receivedRequests = currentUser.receivedRequests || {};
+      currentUser.sentRequests = newProps.currentUser.sentRequests || {};
+      this.setState({
+        currentUser
+      });
+    }
+
+    if(!this.state.user.id && newProps.user.id) {
+      let user = newProps.user;
+      user.friends = user.friends || {};
+      user.receivedRequests = user.receivedRequests || {};
+      user.sentRequests = user.sentRequests || {};
+      this.setState({
+        user
+      });
+    }
   }
 
   handleAddFriend() {
     let currentUser = this.state.currentUser,
+      user = this.state.user,
+      updatedUser = {
+        id: user.id
+      },
+      updatedCurrentUser = {
+        id: currentUser.id
+      },
       friend = {
-        name: this.state.user.name,
-        photo: this.state.user.photo,
+        id: user.id,
+        name: user.name,
+        photo: user.photo,
         createdAt: Date.now()
       },
-
       me = {
-        name: this.state.currentUser.name,
-        photo: this.state.currentUser.photo,
+        id: currentUser.id,
+        name: currentUser.name,
+        photo: currentUser.photo,
         createdAt: Date.now()
       };
 
-    if (this.state.currentUser.friends[this.state.user.id]) {
-      delete currentUser.friends[this.state.user.id];
-      UserActions.set(this.state.user,
-        `friends/${this.state.currentUser.id}`, null);
-    } else if (this.state.currentUser.sentRequests[this.state.user.id]) {
-      delete currentUser.sentRequests[this.state.user.id];
-      UserActions.set(this.state.user,
-        `receivedRequests/${this.state.currentUser.id}`, null);
-    } else if (this.state.currentUser.receivedRequests[this.state.user.id]) {
-      currentUser.friends[this.state.user.id] = friend;
-      UserActions.set(this.state.user,
-        `friends/${this.state.currentUser.id}`, me);
+    if (currentUser.friends[user.id]) {
+      // Remove friend
+      delete user.friends[currentUser.id];
+      delete currentUser.friends[user.id];
+      updatedUser.friends = user.friends;
+      updatedCurrentUser.friends = currentUser.friends;
+    } else if (currentUser.sentRequests[user.id]) {
+      // Cancel friend request
+      delete user.receivedRequests[user.id];
+      delete currentUser.sentRequests[user.id];
+      updatedUser.receivedRequests = user.receivedRequests;
+      updatedCurrentUser.sentRequests = currentUser.sentRequests;
+    } else if (currentUser.receivedRequests[user.id]) {
+      // Accepts friend request
+      currentUser.friends[user.id] = friend;
+      user.friends[currentUser.id] = me;
+
+      // Remove friend request data
+      delete currentUser.receivedRequests[user.id];
+      delete user.sentRequests[currentUser.id];
+
+      // Set objects to be updated
+      updatedUser.sentRequests = user.sentRequests;
+      updatedUser.friends = user.friends;
+      updatedCurrentUser.receivedRequests = currentUser.receivedRequests;
+      updatedCurrentUser.friends = currentUser.friends;
     } else {
-      currentUser.sentRequests[this.state.user.id] = friend;
-      UserActions.set(this.state.user,
-        `receivedRequests/${this.state.currentUser.id}`, me);
+      // Send Friend request
+      currentUser.sentRequests[user.id] = friend;
+      user.receivedRequests[currentUser.id] = me;
+      updatedUser.receivedRequests = user.receivedRequests;
+      updatedCurrentUser.sentRequests = currentUser.sentRequests;
     }
 
-    UserActions.update(currentUser);
-  }
-
-  userStore(state) {
-    this.setState({
-      user: state.get.user,
-      error: state.get.error
-    });
-  }
-
-  getSession(state) {
-    if (state.session) {
-      state.session.friends = state.session.friends || {};
-      state.session.sentRequests = state.session.sentRequests || {};
-      state.session.receivedRequests = state.session.receivedRequests || {};
-    }
-
-    this.setState({
-      currentUser: state.session
-    });
+    UserActions.update(updatedUser);
+    UserActions.update(updatedCurrentUser);
   }
 
   render() {
-    let label = 'Add Friend';
-    if (this.state.currentUser && this.state.currentUser.id) {
-      if (this.state.currentUser.id === this.state.user.id) {
+    let label = 'Add Friend',
+      currentUser = this.state.currentUser,
+      user = this.state.user;
+
+    if (currentUser && currentUser.id) {
+      if (currentUser.id === user.id) {
         label = null;
-      } else if (this.state.currentUser.friends[this.state.user.id]) {
+      } else if (currentUser.friends[user.id]) {
         label = 'Unfriend';
-      } else if (this.state.currentUser.sentRequests[this.state.user.id]) {
-        label = 'Cancel friend Request';
-      } else if (this.state.currentUser.receivedRequests[this.state.user.id]) {
-        label = 'Accept friend Request';
+      } else if (currentUser.sentRequests[user.id]) {
+        label = 'Cancel Request';
+      } else if (currentUser.receivedRequests[user.id]) {
+        label = 'Accept Request';
       }
     } else {
       label = null;
@@ -105,7 +118,7 @@ export default class FriendRequestButton extends React.Component {
     return (
       <div>
       {label ?
-        <RaisedButton label={label}
+        <FlatButton label={label}
             onTouchTap={this.handleAddFriend}
         /> :
          label
