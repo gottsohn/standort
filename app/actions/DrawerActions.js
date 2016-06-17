@@ -2,7 +2,8 @@ import alt from '../lib/alt';
 
 class DrawerActions {
   open(isOpen) {
-    return this.isOpen(isOpen);
+    this.isOpen(isOpen);
+    return true;
   }
 
   isOpen(isOpen) {
