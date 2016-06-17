@@ -12,18 +12,25 @@ export default class UserCard extends React.Component {
 
   render() {
     return (
-      <Link to={`/users/${this.props.user.id}`}>
-        <Paper
-            className={styles.userCard}
-            zDepth={1}
-        >
-          <p>
-            <img className={styles.imageCard} src={this.props.user.photo}/>
-          </p>
-          <h5>{this.props.user.name}</h5>
-          <FriendRequestButton currentUser={this.props.currentUser} user={this.props.user} />
-        </Paper>
-      </Link>
+      <Paper
+          className={styles.userCard}
+          zDepth={1}
+      >
+        <Link to={`/users/${this.props.user.id}`}>
+          <div>
+            <p>
+              <img className={styles.imageCard} src={this.props.user.photo}/>
+            </p>
+            <h5>{this.props.user.name}</h5>
+          </div>
+        </Link>
+        <div className={styles.buttonContainer}>
+          <FriendRequestButton
+              currentUser={this.props.currentUser}
+              user={this.props.user}
+          />
+        </div>
+      </Paper>
     );
   }
 }
