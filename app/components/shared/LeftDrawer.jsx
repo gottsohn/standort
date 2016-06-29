@@ -104,10 +104,19 @@ export default class LeftDrawer extends React.Component {
         >
           <AppBar
               iconElementLeft = {
-                <IconButton onTouchTap={this.handleSideNavigation}><NavigationClose /></IconButton>
+                <IconButton onTouchTap={this.handleSideNavigation}>
+                  <NavigationClose />
+                </IconButton>
               }
-
-              title={<Link style={{color: '#fff'}} to="/">Standort</Link>}
+              title={
+                <Link
+                    onTouchTap={handleCloseDrawer}
+                    style={{color: '#fff'}}
+                    to="/"
+                >
+                  Standort
+                </Link>
+            }
           />
           <AutoComplete
               dataSource={this.state.friends}
@@ -118,6 +127,7 @@ export default class LeftDrawer extends React.Component {
               style={{padding: '0 0 0 20px'}}
           />
           <Menu autoWidth={false} onTouchTap={handleCloseDrawer} width={this.state.width}>
+          <Link to="/"><MenuItem primaryText="Home" /></Link>
            {this.state.user ?
              <Link to={`/users/${this.state.user.id}`}><MenuItem primaryText="My Profile" /></Link> :
              <Link to="/login"><MenuItem onTouchTap={handleCloseDrawer} primaryText="Login" /></Link>}
@@ -130,9 +140,7 @@ export default class LeftDrawer extends React.Component {
                    rightIcon={<ArrowDropRight />}
                /> : null
              }
-           {this.state.user ?
-             <Link to="/search"><MenuItem primaryText="Find People" /></Link> :
-             null}
+           <Link to="/search"><MenuItem primaryText="Find People" /></Link>
            <Link to="/help"><MenuItem primaryText="Help" /></Link>
            {this.state.user ? <Divider /> : null}
            {this.state.user ? <MenuItem onTouchTap={this.handleSignOut} primaryText="Sign out" /> : null}
