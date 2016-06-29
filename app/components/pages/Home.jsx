@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import PublicActions from '../../actions/PublicActions';
-// import UserStore from '../../stores/UserStore_';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -10,11 +9,6 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     PublicActions.setTitle('Home');
-    // UserStore.getState().then(this.getUser);
-  }
-
-  getUser() {
-    // console.log(state);
   }
 
   render() {

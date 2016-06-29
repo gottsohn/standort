@@ -18,7 +18,6 @@ import PublicStore from '../../stores/PublicStore';
 import SessionActions from '../../actions/SessionActions';
 import LeftDrawer from './LeftDrawer.jsx';
 import DrawerActions from '../../actions/DrawerActions';
-import UpdatePosition from './UpdatePosition.jsx';
 import UserMenu from './UserMenu.jsx';
 
 export default class Header extends React.Component {
@@ -99,7 +98,6 @@ export default class Header extends React.Component {
     return (
       <div>
       <LeftDrawer />
-      <UpdatePosition currentUser={this.state.user} />
       <AppBar className={styles.header}
           iconElementLeft = {
             <IconButton onTouchTap={this.handleSideNavigation}>
@@ -140,7 +138,7 @@ export default class Header extends React.Component {
                       rightIcon={<ArrowDropRight />}
                   /> : null
                }
-                <Link to="/help"><MenuItem primaryText="Help" /></Link>
+                <Link to="/"><MenuItem primaryText="Help" /></Link>
                 <Divider />
                 {
                   this.state.user ?
