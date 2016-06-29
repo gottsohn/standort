@@ -12,7 +12,6 @@ export default {
   },
 
   get: (userId) => {
-    'use strict';
     return new Promise((resolve, reject) => {
       let result = {
         type: GET
@@ -31,7 +30,6 @@ export default {
   },
 
   update: (user) => {
-    'use strict';
     return {
       type: UPDATE,
       user
@@ -39,7 +37,6 @@ export default {
   },
 
   set: (user) => {
-    'use strict';
     return {
       type: SET,
       user

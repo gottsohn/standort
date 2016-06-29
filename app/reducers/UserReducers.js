@@ -5,8 +5,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  'use strict';
-
   switch (action.type) {
     case actions.GET:
       return actions.get(action.userId);
