@@ -32,6 +32,12 @@ a {
   opacity: 1;
 }
 
+.loginContainer {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 500px;
+}
+
 .userCard:hover .imageCard {
   opacity: 0.5;
 }
@@ -40,8 +46,7 @@ a {
   transition-duration: 0.5s;
   border-radius: 50%;
   max-height: 96px;
-  background-color: #efefef;
-  padding: 3px;
+  box-shadow: 0 0 3px #eee;
 }
 
 .buttonContainer {
