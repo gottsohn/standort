@@ -1,10 +1,13 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
-import firebase from '../../database';
+import FlatButton from 'material-ui/FlatButton';
+import classnames from 'classnames';
 import Snackbar from 'material-ui/Snackbar';
 import SessionStore from '../../stores/SessionStore';
 import PublicActions from '../../actions/PublicActions';
+
+import firebase from '../../database';
+import styles from '../../App.css';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -64,7 +67,17 @@ export default class Login extends React.Component {
 
     login = login.bind(this, firebase.providers[provider.key]);
     return (
-      <RaisedButton key={provider.key} label={provider.name}  onTouchTap={login}/>
+      <FlatButton
+          key={provider.key}
+          onTouchTap={login}
+      >
+        <i
+            className={classnames('fa', 'fa-2x', `fa-${provider.name.toLowerCase()}`)}
+            style={{color: provider.color, verticalAlign: 'middle'}}
+        >
+        </i>
+
+      </FlatButton>
     );
   }
 
@@ -80,31 +93,35 @@ export default class Login extends React.Component {
   render() {
     const authProviders = [{
       name: 'Google',
-      key: 'google'
+      key: 'google',
+      color: '#D50F25'
     }, {
       name: 'Facebook',
-      key: 'facebook'
+      key: 'facebook',
+      color: '#3B5999'
     }, {
       name: 'GitHub',
-      key: 'github'
+      key: 'github',
+      color: '#222'
     }];
 
     return (
-      <div>
+      <div className={styles.loginContainer}>
         {
           this.state.user ?
           <div><h2>Welcome {this.state.user.name}</h2></div> :
-          <div>
+          <div className={styles.container}>
             <h2>Login</h2>
             <Divider/>
-            <p>Login with a social media account provided below</p>
+            <p>Login with a provider below to get started</p>
             <div>
             {authProviders.map(this.renderAuth)}
             </div>
           </div>
         }
+
         <Snackbar
-            autoHideDuration={4000}
+            autoHideDuration={2000}
             message={this.state.snackbar.message}
             onRequestClose={this.handleRequestClose}
             open={this.state.snackbar.open}
