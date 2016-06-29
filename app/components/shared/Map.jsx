@@ -5,7 +5,7 @@ import {GoogleMapLoader, Marker, GoogleMap} from
 
 import firebase from '../../database';
 import markerIcon from 'file!../../images/pin.png';
-import markerMe from 'file!../../images/pin.png';
+import markerMe from 'file!../../images/pin2.png';
 
 const navigator = window.navigator;
 export default class Map extends React.Component {
