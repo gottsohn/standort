@@ -13,7 +13,7 @@ export default class FriendRequestButton extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!this.state.currentUser.id && newProps.currentUser &&
+    if (newProps.currentUser && !this.state.currentUser.id &&
         newProps.currentUser.id) {
 
       let currentUser = newProps.currentUser;
@@ -98,12 +98,15 @@ export default class FriendRequestButton extends React.Component {
 
   render() {
     let label = 'Add Friend',
+      showButton = true,
+      disabled = false,
       currentUser = this.state.currentUser,
       user = this.state.user;
 
     if (currentUser && currentUser.id) {
       if (currentUser.id === user.id) {
-        label = null;
+        label = 'Me';
+        disabled = true;
       } else if (currentUser.friends[user.id]) {
         label = 'Unfriend';
       } else if (currentUser.sentRequests[user.id]) {
@@ -112,16 +115,19 @@ export default class FriendRequestButton extends React.Component {
         label = 'Accept Request';
       }
     } else {
-      label = null;
+      disabled = true;
     }
 
     return (
       <div>
-      {label ?
-        <FlatButton label={label}
+      {
+        showButton ?
+        <FlatButton
+            disabled={disabled}
+            label={label}
             onTouchTap={this.handleAddFriend}
         /> :
-         label
+        null
        }
       </div>
     );
