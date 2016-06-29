@@ -70,7 +70,10 @@ export default class Profile extends React.Component {
           <div>
             <Paper style={{padding: '20px'}}>
               <div className={styles.inlineBlock}>
-                <img src={this.state.user.photo} />
+                <img
+                    className={styles.imageCard}
+                    src={this.state.user.photo}
+                />
               </div>
               <div className={styles.inlineBlock}>
                 <h2>{this.state.user.name}</h2>

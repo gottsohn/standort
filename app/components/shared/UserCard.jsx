@@ -19,7 +19,14 @@ export default class UserCard extends React.Component {
         <Link to={`/users/${this.props.user.id}`}>
           <div>
             <p>
-              <img className={styles.imageCard} src={this.props.user.photo}/>
+              <img
+                  className={styles.imageCard}
+                  src={
+                    this.props.user.photo ||
+                    'https://upload.wikimedia.org/wikipedia/commons/7/7c'+
+                    '/Profile_avatar_placeholder_large.png'
+                  }
+              />
             </p>
             <h5>{this.props.user.name}</h5>
           </div>
@@ -36,9 +43,9 @@ export default class UserCard extends React.Component {
 }
 
 const userProp = {
-  photo: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired
+  photo: React.PropTypes.string,
+  name: React.PropTypes.string,
+  id: React.PropTypes.string
 };
 
 UserCard.propTypes = {

@@ -17,7 +17,7 @@ class SessionStore {
 
     getSession() {
       this.setState({
-        session: {},
+        session: null,
         error: null
       });
     }
