@@ -8,11 +8,13 @@ module.exports = {
   entry: [
     path.join(__dirname, 'app/main.js')
   ],
+
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name]-[hash].min.js',
     publicPath: '/'
   },
+
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new HtmlWebpackPlugin({
@@ -20,6 +22,7 @@ module.exports = {
       inject: 'body',
       filename: 'index.html'
     }),
+
     new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -27,14 +30,17 @@ module.exports = {
         screw_ie8: true
       }
     }),
+
     new StatsPlugin('webpack.stats.json', {
       source: false,
       modules: false
     }),
+
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ],
+
   module: {
     loaders: [{
       test: /\.jsx?$/,
@@ -49,9 +55,11 @@ module.exports = {
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
-      loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss')
+      loader: ExtractTextPlugin.extract('style',
+        'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss')
     }]
   },
+  
   postcss: [
     require('autoprefixer')
   ]
