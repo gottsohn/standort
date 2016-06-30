@@ -8,7 +8,7 @@ import SessionStore from '../../stores/SessionStore';
 import SessionActions from '../../actions/SessionActions';
 import PublicActions from '../../actions/PublicActions';
 import FriendRequestButton from '../shared/FriendRequestButton.jsx';
-
+import Map from '../shared/Map.jsx';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ export default class Profile extends React.Component {
     this.getSession = this.getSession.bind(this);
     this.state = {
       user: {},
+      users: [null, props.params.id],
       currentUser: {
         friends: {},
         sentRequests: {}
@@ -38,27 +39,33 @@ export default class Profile extends React.Component {
   }
 
   userStore(state) {
-    this.setState({
-      user: state.get.user,
-      error: state.get.error
-    });
-
+    let users = this.state.users;
     if (state.get.user) {
+      users[1] = state.get.user.id;
       setTimeout(() => {
         PublicActions.setTitle(state.get.user.name);
         return true;
       }, 100);
     }
+
+    this.setState({
+      user: state.get.user,
+      error: state.get.error,
+      users
+    });
   }
 
   getSession(state) {
+    let users = this.state.users;
     if (state.session) {
       state.session.friends = state.session.friends || {};
       state.session.sentRequests = state.session.sentRequests || {};
+      users[0] = state.session.id;
     }
 
     this.setState({
-      currentUser: state.session
+      currentUser: state.session,
+      users
     });
   }
 
@@ -66,7 +73,7 @@ export default class Profile extends React.Component {
     return (
       <div>
         {
-          !this.state.user ? <h2>{this.state.error}</h2> :
+          !this.state.user || !this.state.user.id ? <h2>{this.state.error}</h2> :
           <div>
             <Paper style={{padding: '20px'}}>
               <div className={styles.inlineBlock}>
@@ -80,7 +87,7 @@ export default class Profile extends React.Component {
                 <small>
                   {
                     this.state.user.email ?
-                    this.state.user.email.replace(/[a-z].*@/g, '****@'): null
+                    this.state.user.email.replace(/[a-z].*@/g, '*******@'): null
                   }
                 </small>
                 <FriendRequestButton
@@ -90,8 +97,8 @@ export default class Profile extends React.Component {
               </div>
             </Paper>
             <br/>
-            <Paper style={{padding: '20px'}}>
-            <h1>Google Map Goes Here</h1>
+            <Paper>
+              <Map currentUser={this.state.currentUser} users={this.state.users} />
             </Paper>
           </div>
         }

@@ -8,9 +8,19 @@ import styles from '../../App.css';
 export default class UserCard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currentUser: null
+    };
+  }
+
+  componentWillReceiveProps({currentUser}) {
+    this.setState({
+      currentUser
+    });
   }
 
   render() {
+
     return (
       <Paper
           className={styles.userCard}
@@ -33,7 +43,7 @@ export default class UserCard extends React.Component {
         </Link>
         <div className={styles.buttonContainer}>
           <FriendRequestButton
-              currentUser={this.props.currentUser}
+              currentUser={this.state.currentUser}
               user={this.props.user}
           />
         </div>
