@@ -8,18 +8,19 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './App.js';
 import Home from './components/pages/Home.jsx';
 import Search from './components/pages/Search.jsx';
+import Help from './components/pages/Help.jsx';
 import Login from './components/pages/Login.jsx';
 import Profile from './components/pages/Profile.jsx';
 
 injectTapEventPlugin();
-
 render((<MuiThemeProvider muiTheme={getMuiTheme()}>
           <Router history={browserHistory}>
             <Route component={App} path="/">
               <IndexRoute component={Home}/>
+              <Route component={Help} path="/help"/>
               <Route component={Login} path="/login"/>
-              <Route component={Search} path="/search"/>
               <Route component={Profile} path="/users/:id"/>
+              <Route component={Search} path="/search"/>
             </Route>
           </Router>
         </MuiThemeProvider>),
