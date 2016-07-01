@@ -2,7 +2,11 @@ import alt from '../lib/alt';
 
 class PublicActions {
   setTitle(title) {
-    this.title(title);
+    if (title) {
+      this.title(title);
+      window.document.title = title;
+    }
+
     return true;
   }
 

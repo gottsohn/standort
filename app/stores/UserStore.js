@@ -27,7 +27,7 @@ class UserStore {
     get() {
       this.setState({
         get: {
-          user: null,
+          user: this.state.get.user,
           error: null
         }
       });

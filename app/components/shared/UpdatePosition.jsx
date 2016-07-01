@@ -10,9 +10,10 @@ export default class UpdatePosition extends React.Component {
     this.onLocation = this.onLocation.bind(this);
     this.watchId = null;
     this.options = {
-      timeout: 60000,
+      timeout: 120000,
       enableHighAccuracy: true
     };
+
     this.currentUser = null;
     this.state = {
       snackbar: {
@@ -85,9 +86,7 @@ export default class UpdatePosition extends React.Component {
   onLocation(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-
     if (this.props.currentUser) {
-      // console.log(this.props.currentUser.id);
       UserActions.update({
         id: this.props.currentUser.id,
         position: {
