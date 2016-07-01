@@ -52,15 +52,21 @@ export default class Map extends React.Component {
     }
   }
 
-  componentWillReceiveProps({users}) {
+  componentWillReceiveProps({currentUser, users}) {
+    if (currentUser) {
+      currentUser.friends = currentUser.friends || {};
+    }
+
     users.forEach((userId, index) => {
-      if (userId && !this.state.markers[index]) {
+      if (currentUser && userId && !this.state.markers[index]) {
         const userRef = firebase.database.ref(`users/${userId}`);
         userRef.off('value');
         if(index === 0) {
           userRef.once('value', (snap) => this.positionListener(index, snap));
         } else {
-          userRef.on('value', (snap) => this.positionListener(index, snap));
+          if(currentUser && currentUser.friends[userId]) {
+            userRef.on('value', (snap) => this.positionListener(index, snap));
+          }
         }
       }
     });
