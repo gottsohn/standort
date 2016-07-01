@@ -2,7 +2,7 @@ body {
     font: 400 1em Raleway, Roboto, sans-serif;
     margin: 0;
     padding: 0;
-    color: #444;
+    color: #555;
 }
 
 .container {
@@ -13,13 +13,18 @@ h1,
 h2,
 h3,
 h4,
-h5 {
-    margin: 5px 0;
-    color: #555;
+h5,
+h6 {
+    margin: 7px 0;
 }
 
 a {
     text-decoration: none;
+    color: #00bcd4;
+}
+
+a:visited {
+  color: #00bcdf;
 }
 
 .userCard {
@@ -53,6 +58,17 @@ a {
   height: 60px;
   display: block;
   overflow: hidden;
+}
+
+.largeText {
+  font-size: 2em;
+}
+
+.largerText {
+  font-size: 3.5em;
+}
+.center {
+  text-align: center;
 }
 
 .inlineBlock {
