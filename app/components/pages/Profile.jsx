@@ -1,5 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
+import classnames from 'classnames';
+import {Link} from 'react-router';
 
 import styles from '../../App.css';
 import UserActions from '../../actions/UserActions';
@@ -16,7 +18,7 @@ export default class Profile extends React.Component {
     this.userStore = this.userStore.bind(this);
     this.getSession = this.getSession.bind(this);
     this.state = {
-      user: {},
+      user: null,
       users: [null, props.params.id],
       currentUser: {
         friends: {},
@@ -43,7 +45,7 @@ export default class Profile extends React.Component {
     if (state.get.user) {
       users[1] = state.get.user.id;
       setTimeout(() => {
-        PublicActions.setTitle(state.get.user.name);
+        PublicActions.setTitle(state.get.user ? state.get.user.name: null);
         return true;
       }, 100);
     }
@@ -70,35 +72,60 @@ export default class Profile extends React.Component {
   }
 
   render() {
+    const currentUser = this.state.currentUser;
+    const user = this.state.user;
     return (
       <div>
         {
-          !this.state.user || !this.state.user.id ? <h2>{this.state.error}</h2> :
+          !user  ?
+          <div>
+            <h2>{this.state.error || 'User not found'}</h2>
+            <p>Error parsing user data</p>
+          </div> :
           <div>
             <Paper style={{padding: '20px'}}>
               <div className={styles.inlineBlock}>
                 <img
                     className={styles.imageCard}
-                    src={this.state.user.photo}
+                    src={user.photo}
                 />
               </div>
               <div className={styles.inlineBlock}>
-                <h2>{this.state.user.name}</h2>
+                <h2>{user.name}</h2>
                 <small>
                   {
-                    this.state.user.email ?
-                    this.state.user.email.replace(/[a-z].*@/g, '*******@'): null
+                    user.email ?
+                    user.email.replace(/[a-z].*@/g, '*******@'): null
                   }
                 </small>
                 <FriendRequestButton
                     currentUser={this.state.currentUser}
-                    user={this.state.user}
+                    user={user}
                 />
               </div>
             </Paper>
             <br/>
             <Paper>
-              <Map currentUser={this.state.currentUser} users={this.state.users} />
+              {
+                (currentUser &&
+                currentUser.friends &&
+                currentUser.friends[user.id]) ||
+                currentUser && user.id === currentUser.id ?
+                  <Map
+                      currentUser={currentUser}
+                      users={this.state.users}
+                  />
+                : <div className={classnames(styles.container, styles.center)}>
+                    <i className={classnames('fa', 'fa-5x', 'fa-warning')}></i>
+                    <p className={styles.largeText}>
+                      You need to be friends with
+                        <Link to={`/users/${user.id}`}>
+                          <b> {user.name} </b>
+                        </Link>
+                      to see his/her location.</p>
+                  </div>
+              }
+
             </Paper>
           </div>
         }
