@@ -15,14 +15,22 @@ class UserActions {
   }
 
   update(user, fields) {
-    firebase.database.ref(`users/${user.id}`).update(fields || user,
-      (error) => {
-        if (error) {
-          this.updateError(error);
-        } else {
-          this.updateSuccess(user);
-        }
+    let update = fields || user;
+    update.lastSeenAt = Date.now();
+    if (user.id) {
+      firebase.database.ref(`users/${user.id}`).update(update,
+        (error) => {
+          if (error) {
+            this.updateError(error);
+          } else {
+            this.updateSuccess(user);
+          }
+        });
+      } else {
+      this.updateError({
+          message: 'No user ID present'
       });
+    }
 
     return true;
   }
@@ -44,9 +52,9 @@ class UserActions {
     return user;
   }
 
-  updateError() {
+  updateError(error) {
     return {
-      error: 'User not updated'
+      error
     };
   }
 }

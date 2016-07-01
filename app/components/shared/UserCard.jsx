@@ -9,7 +9,7 @@ export default class UserCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null
+      currentUser: props.currentUser
     };
   }
 
