@@ -4,6 +4,7 @@ class PublicActions {
   setTitle(title) {
     if (title) {
       this.title(title);
+      window.document.title = title;
     }
 
     return true;
