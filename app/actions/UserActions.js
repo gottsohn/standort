@@ -3,6 +3,7 @@ import alt from '../lib/alt';
 
 class UserActions {
   get(userId) {
+    this.getSuccess(null);
     firebase.database.ref(`users/${userId}`).once('value', (snap) => {
       if (snap.val()) {
         this.getSuccess(snap.val());
