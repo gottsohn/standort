@@ -6,9 +6,11 @@ export default class FriendRequestButton extends React.Component {
   constructor(props) {
     super(props);
     this.handleAddFriend = this.handleAddFriend.bind(this);
+    const user = this.processUser(props.user);
+    const currentUser = this.processUser(props.currentUser);
     this.state = {
-      user: {},
-      currentUser: {}
+      user,
+      currentUser
     };
   }
 
@@ -16,24 +18,26 @@ export default class FriendRequestButton extends React.Component {
     if (newProps.currentUser && !this.state.currentUser.id &&
         newProps.currentUser.id) {
 
-      let currentUser = newProps.currentUser;
-      currentUser.friends = currentUser.friends || {};
-      currentUser.receivedRequests = currentUser.receivedRequests || {};
-      currentUser.sentRequests = newProps.currentUser.sentRequests || {};
+      const currentUser = this.processUser(newProps.currentUser);
       this.setState({
         currentUser
       });
     }
 
     if(!this.state.user.id && newProps.user.id) {
-      let user = newProps.user;
-      user.friends = user.friends || {};
-      user.receivedRequests = user.receivedRequests || {};
-      user.sentRequests = user.sentRequests || {};
+      const user = this.processUser(newProps.user);
       this.setState({
         user
       });
     }
+  }
+
+  processUser(user) {
+    user = user || {};
+    user.friends = user.friends || {};
+    user.receivedRequests = user.receivedRequests || {};
+    user.sentRequests = user.sentRequests || {};
+    return user;
   }
 
   handleAddFriend() {
@@ -94,6 +98,10 @@ export default class FriendRequestButton extends React.Component {
 
     UserActions.update(updatedUser);
     UserActions.update(updatedCurrentUser);
+    this.setState({
+      currentUser,
+      user
+    });
   }
 
   render() {
@@ -110,8 +118,10 @@ export default class FriendRequestButton extends React.Component {
       } else if (currentUser.friends[user.id]) {
         label = 'Unfriend';
       } else if (currentUser.sentRequests[user.id]) {
+
         label = 'Cancel Request';
       } else if (currentUser.receivedRequests[user.id]) {
+
         label = 'Accept Request';
       }
     } else {
