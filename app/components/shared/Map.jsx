@@ -35,25 +35,7 @@ export default class Map extends React.Component {
       zoom: 13
     };
   }
-
-  componentWillMount() {
-    // if (navigator.geolocation) {
-    //   this.watchId = navigator.geolocation.watchPosition(
-    //     this.onLocation,
-    //     this.onLocationError,
-    //     {
-    //       timeout: 30000
-    //   });
-    // } else {
-    //   this.setState({
-    //     snackbar: {
-    //       open: true,
-    //       message: 'Your browser doens\'t support Location services'
-    //     }
-    //   });
-    // }
-  }
-
+  
   componentDidMount() {
     if (navigator.geolocation) {
       this.watchId = navigator.geolocation.watchPosition(
