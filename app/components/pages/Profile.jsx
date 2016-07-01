@@ -16,7 +16,7 @@ export default class Profile extends React.Component {
     this.userStore = this.userStore.bind(this);
     this.getSession = this.getSession.bind(this);
     this.state = {
-      user: {},
+      user: null,
       users: [null, props.params.id],
       currentUser: {
         friends: {},
@@ -33,6 +33,7 @@ export default class Profile extends React.Component {
     PublicActions.setTitle('Profile');
   }
 
+
   componentWillUnmount() {
     SessionStore.unlisten(this.getSession);
     UserStore.unlisten(this.userStore);
@@ -43,7 +44,7 @@ export default class Profile extends React.Component {
     if (state.get.user) {
       users[1] = state.get.user.id;
       setTimeout(() => {
-        PublicActions.setTitle(state.get.user.name);
+        PublicActions.setTitle(state.get.user ? state.get.user.name: null);
         return true;
       }, 100);
     }
@@ -73,7 +74,11 @@ export default class Profile extends React.Component {
     return (
       <div>
         {
-          !this.state.user || !this.state.user.id ? <h2>{this.state.error}</h2> :
+          !this.state.user  ?
+          <div>
+            <h2>{this.state.error || 'User not found'}</h2>
+            <p>Error parsing user data</p>
+          </div> :
           <div>
             <Paper style={{padding: '20px'}}>
               <div className={styles.inlineBlock}>
