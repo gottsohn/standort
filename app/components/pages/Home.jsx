@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 
 import PublicActions from '../../actions/PublicActions';
+import SessionActions from '../../actions/SessionActions';
 import SessionStore from '../../stores/SessionStore';
 import styles from '../../App.css';
 import Map from '../shared/Map.jsx';
@@ -19,8 +20,9 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    PublicActions.setTitle('Home');
     SessionStore.listen(this.getSession);
+    PublicActions.setTitle('Home');
+    SessionActions.getSession();
     // UserStore.getState().then(this.getUser);
   }
 
