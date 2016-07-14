@@ -26,6 +26,10 @@ export default class Home extends React.Component {
     // UserStore.getState().then(this.getUser);
   }
 
+  componentWillUnmount() {
+    SessionStore.unlisten(this.getSession);
+  }
+
   getSession({session}) {
     const currentUser = session;
     if (currentUser) {
