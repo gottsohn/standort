@@ -51,14 +51,14 @@ export default class FriendRequestButton extends React.Component {
       },
       friend = {
         id: user.id,
-        name: user.name,
-        photo: user.photo,
+        name: user.name || null,
+        photo: user.photo || null,
         createdAt: Date.now()
       },
       me = {
         id: currentUser.id,
-        name: currentUser.name,
-        photo: currentUser.photo,
+        name: currentUser.name || null,
+        photo: currentUser.photo || null,
         createdAt: Date.now()
       };
 
